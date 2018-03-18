@@ -4,8 +4,8 @@
   (:import
    (java.io InputStream)
    (java.nio.charset StandardCharsets)
-   (org.apache.lucene.analysis.util WordlistLoader
-                                    CharArraySet)
+   (org.apache.lucene.analysis WordlistLoader
+                               CharArraySet)
    (org.apache.lucene.util IOUtils)
    (org.apache.lucene.analysis.Analyzer$TokenStreamComponents)
    (org.apache.lucene.analysis Analyzer

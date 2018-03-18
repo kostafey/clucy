@@ -4,14 +4,13 @@
            (java.net URI)
            (org.apache.lucene.analysis Analyzer TokenStream)
            (org.apache.lucene.analysis.standard StandardAnalyzer)
-           (org.apache.lucene.document Document Field FieldType
-                                       Field$Index Field$Store Field$TermVector)
+           (org.apache.lucene.document Document Field FieldType Field$Store)
            (org.apache.lucene.index IndexWriter IndexReader Term
                                     IndexWriterConfig DirectoryReader FieldInfo
                                     IndexOptions)
            (org.apache.lucene.queryparser.classic QueryParser)
            (org.apache.lucene.search BooleanClause BooleanClause$Occur
-                                     BooleanQuery IndexSearcher Query ScoreDoc
+                                     BooleanQuery BooleanQuery$Builder IndexSearcher Query ScoreDoc
                                      Scorer TermQuery
                                      Explanation)
            (org.apache.lucene.search.highlight Highlighter QueryScorer
@@ -214,7 +213,7 @@
   [index & maps]
   (with-open [^IndexWriter writer (index-writer index)]
     (doseq [m maps]
-      (let [query (BooleanQuery.)]
+      (let [query (BooleanQuery$Builder.)]
         (doseq [[key value] m]
           (dorun (map #(.add query
                      (BooleanClause.
@@ -224,7 +223,7 @@
                       (if-not (vector? value)
                         [value]
                         value))))
-        (.deleteDocuments writer (into-array [query]))))))
+        (.deleteDocuments writer (into-array [(.build query)]))))))
 
 (defn- document->map
   "Turn a Document object into a map."
